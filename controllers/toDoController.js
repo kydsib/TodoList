@@ -8,7 +8,6 @@ let createToDoItem = (req, res) => {
         res.json(item)
     }))
     .catch(e => res.satus(400).json(e))
-    // res.json(data)
 }
 
 let getAllItems = (req, res) => {
@@ -17,17 +16,6 @@ let getAllItems = (req, res) => {
     })
 }
 
-let createUser = (req, res) => {
-    let data = req.body
-    let user = new userModel()
-    user.name = data.name
-    user.email = data.email
-    user.password = data.password
-    user.save().then((item => {
-        res.json(item)
-    }))
-    .catch(e => res.satus(400).json(e))
-}
 
 module.exports = {
     createToDoItem,
