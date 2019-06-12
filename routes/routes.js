@@ -14,14 +14,17 @@ router.get('/', (request, response) => {
 });
 
 router.route('/toDoItem')
-.post(toDoController.createToDoItem)
+.post(middleware.authenticate, toDoController.createToDoItem)
 .get(toDoController.getAllItems)
 
 
 router.route('/register').post(userController.register)
 
 
-router.route('/login').post(middleware.authenticate, userController.login)
+router.route('/login').post( userController.login)
+
+router.route('/logout')
+    .get(middleware.authenticate, userController.logout)
 
 module.exports = router
 

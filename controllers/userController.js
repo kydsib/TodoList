@@ -52,10 +52,21 @@ let register = (req, res) => {
   }
 
   let logout = (req, res) => {
-      
+    let user = req.user
+    let token = req.token
+    user.update({
+        $pull: {
+            tokens: {
+                token
+            }
+        }
+    }).then(() => {
+        res.json('logged out')
+    }).catch( e => res.status(400).json(e))
   }
 
 module.exports = {
     register,
-    login
+    login,
+    logout
 }

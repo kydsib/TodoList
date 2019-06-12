@@ -23,7 +23,7 @@ let authenticate = (req, res, next) => {
         }
     })
   } catch(e) {
-      res. status(400).json(e)
+      res.status(400).json(e)
   }
 }
 

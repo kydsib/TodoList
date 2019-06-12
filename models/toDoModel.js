@@ -10,6 +10,10 @@ let ToDoSchema = new mongoose.Schema({
         required: true,
         default: false
     },
+    creator: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
     createdAt: {
         type: Date,
         default: new Date()

@@ -2,8 +2,9 @@ const ToDoModel = require('../models/toDoModel')
 
 let createToDoItem = (req, res) => {
     let data = req.body
-    let todo = new todoModel()
+    let todo = new ToDoModel()
     todo.title = data.title
+    todo.creator = req.user._id
     todo.save().then((item => {
         res.json(item)
     }))
