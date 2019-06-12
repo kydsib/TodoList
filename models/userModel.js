@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
-const uniqueValidator = require('mongoose-unique-vadidator')
-
+const bcrypt = require('bcrypt')
 
 let UserSchema = new mongoose.Schema({
     email: {
@@ -11,10 +10,33 @@ let UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
+    },
+    tokens: [{
+        access: {
+            type: String,
+            required: true
+        },
+        token: {
+            type: String,
+            required: true
+        }
+    }]
+})
+
+UserSchema.pre('save', function(next) {
+    let user = this
+    if (user.isModified('password')) {
+        bcrypt.genSalt(10, (error, salt) => {
+            bcrypt.hash(user.password, salt, (error, hash) =>{
+                user.password = hash
+                next()
+            })
+        })
+    } else {
+        next()
     }
 })
 
-
-let User = mongoose.model('User', UserSchema)
+let UserModel = mongoose.model('User', UserSchema)
 
 module.exports = UserModel;
