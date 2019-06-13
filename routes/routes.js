@@ -15,8 +15,12 @@ router.get('/', (request, response) => {
 
 router.route('/toDoItem')
 .post(middleware.authenticate, toDoController.createToDoItem)
-.get(toDoController.getAllItems)
+.get(middleware.authenticate, toDoController.getAllItems)
 
+router.route('/toDOItem/:id')
+    .delete(middleware.authenticate, toDoController.deleteItem)
+    .put(middleware.authenticate, toDoController.toggleItem)
+    .get(middleware.authenticate, toDoController.getItem)
 
 router.route('/register').post(userController.register)
 
@@ -25,6 +29,7 @@ router.route('/login').post( userController.login)
 
 router.route('/logout')
     .get(middleware.authenticate, userController.logout)
+ 
 
 module.exports = router
 

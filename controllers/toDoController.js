@@ -12,13 +12,55 @@ let createToDoItem = (req, res) => {
 }
 
 let getAllItems = (req, res) => {
-    ToDoModel.find().then((items) => {
+    ToDoModel.find({
+        creator: req.user._id
+    }).then((items) => {
         res.json(items)
     })
 }
 
+let deleteItem = (req, res) => {
+    let id = req.param('id')
+    ToDoModel.deleteOne({
+        _id: id,
+        creator: req.user._id 
+    })
+    .then((response) => {
+        res.json(response)
+    })
+    .catch(e => res.status(400).json(e))
+}
+
+let toggleItem = (req, res) => {
+    let id = req.param('id')
+    ToDoModel.findOne({
+        _id: id,
+        creator: req.user._id
+    })
+    .then((item) => {
+        item.checked = !item.checked
+        item.save()
+        .then(savedItem => res.json(savedItem))
+    })
+    .catch(e => res.status(400).json(e))
+}
+
+let getItem = (req, res) => {
+    let id = req.param('id')
+    ToDoModel.findOne({
+        _id: id,
+        creator: req.user._id
+    })
+    .then((item) => {
+     res.json(item)
+    })
+    .catch(e => res.status(400).json(e))
+}
 
 module.exports = {
     createToDoItem,
-    getAllItems
+    getAllItems,
+    deleteItem,
+    toggleItem,
+    getItem
 }

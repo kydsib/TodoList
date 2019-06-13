@@ -65,8 +65,11 @@ let register = (req, res) => {
     }).catch( e => res.status(400).json(e))
   }
 
+ 
+
 module.exports = {
     register,
     login,
-    logout
+    logout,
+   
 }
